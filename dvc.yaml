@@ -1,0 +1,49 @@
+stages:
+  
+  Training:
+    cmd: python fraud_svm.py
+    
+    deps:
+      - fraud_svm.py
+      - Data/creditcard.csv
+      
+
+    outs:
+      - Models/Fraud_SVM.pkl
+      - Data/x_test.csv
+      - Data/y_test.csv
+    
+
+   
+  Testing:
+    cmd: python fraud_svm_test.py 
+
+    deps:
+      - fraud_svm_test.py 
+      - Data/x_test.csv
+      - Data/y_test.csv
+      - Models/Fraud_SVM.pkl
+      
+
+    metrics:   
+
+      - Output/Accuracy.json:
+          cache: false
+
+  
+
+
+
+    plots:    
+
+      - plots.json:
+          cache: false
+          x: fpr
+          y: tpr
+
+      - auc.png:
+          cache: false
+
+      - confusion_mat.png:
+          cache: false
+
